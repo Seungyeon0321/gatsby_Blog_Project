@@ -29,6 +29,7 @@ const Layout = ({ pageTitle, children }) => {
         <h1 className={heading}>{pageTitle}</h1>
         {children}
       </main>
+      {/* 여기서 children은 Layout이 import되서 감싸는 태그 들을 얘기함, 이 것을 예를 들면 p가 되겠음 */}
     </div>
   );
 };
