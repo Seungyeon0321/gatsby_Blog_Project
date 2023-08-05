@@ -4,14 +4,18 @@ import Layout from "../components/layout";
 import Seo from "../components/seo";
 
 const BlogPage = ({ data }) => {
-  const dataForName = data.allFile.nodes;
+  const dataForName = data.allMdx.nodes;
 
   return (
     <Layout pageTitle="My Blog Posts">
       <ul>
-        {dataForName.map((node) => {
-          return <li key={node.name}>{node.name}</li>;
-        })}
+        {dataForName.map((node) => (
+          <article key={node.id}>
+            <h2>{node.frontmatter.name}</h2>
+            <p>Posted: {node.frontmatter.date}</p>
+            <p>{node.excerpt}</p>
+          </article>
+        ))}
       </ul>
     </Layout>
   );
@@ -20,9 +24,14 @@ const BlogPage = ({ data }) => {
 //filter쓰는 법 알아보기
 export const query = graphql`
   query {
-    allFile(filter: { sourceInstanceName: { eq: "blog" } }) {
+    allMdx(sort: { frontmatter: { date: DESC } }) {
       nodes {
-        name
+        frontmatter {
+          date(formatString: "MMMM DD, YYYY")
+          name
+        }
+        id
+        excerpt
       }
     }
   }
